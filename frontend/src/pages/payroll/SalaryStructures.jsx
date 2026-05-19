@@ -4,7 +4,7 @@ import PageHeader from '../../components/shared/PageHeader';
 import { DollarSign, X, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useSocket } from '../../context/SocketContext';
-import SearchableSelect from '../../components/shared/SearchableSelect';
+import EmployeeSearch from '../../components/shared/EmployeeSearch';
 
 export default function SalaryStructures() {
   const [structures, setStructures] = useState([]);
@@ -85,11 +85,11 @@ export default function SalaryStructures() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-xs uppercase tracking-widest font-semibold text-on-surface-variant mb-1.5">Employee</label>
-                <SearchableSelect 
-                  options={employees.map(e => ({ value: e.id, label: `${e.full_name} (${e.email})` }))}
+                <EmployeeSearch 
+                  employees={employees}
                   value={form.employee_id}
                   onChange={val => setForm(f => ({...f, employee_id: val}))}
-                  placeholder="Select Employee"
+                  placeholder="Search Employee..."
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">

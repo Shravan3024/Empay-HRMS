@@ -3,7 +3,6 @@ import api from '../../api/axios';
 import PageHeader from '../../components/shared/PageHeader';
 import StatCard from '../../components/shared/StatCard';
 import { CalendarCheck, UserX, Clock, CalendarOff } from 'lucide-react';
-import { useSocket } from '../../context/SocketContext';
 
 export default function MyAttendance() {
   const [records, setRecords] = useState([]);
@@ -11,9 +10,8 @@ export default function MyAttendance() {
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
   const [summary, setSummary] = useState({});
-  const { socket } = useSocket();
 
-  const fetchRecords = () => {
+  useEffect(() => {
     setLoading(true);
     Promise.all([
       api.get('/attendance/my', { params: { month, year } }),
@@ -23,18 +21,7 @@ export default function MyAttendance() {
       setSummary(sumRes.data.data);
       setLoading(false);
     }).catch(() => setLoading(false));
-  };
-
-  useEffect(() => {
-    fetchRecords();
   }, [month, year]);
-
-  useEffect(() => {
-    if (!socket) return;
-    const handleUpdate = () => fetchRecords();
-    socket.on('attendance_updated', handleUpdate);
-    return () => socket.off('attendance_updated', handleUpdate);
-  }, [socket, month, year]);
 
   // Build calendar grid
   const daysInMonth = new Date(year, month, 0).getDate();
@@ -63,7 +50,7 @@ export default function MyAttendance() {
       </div>
 
       {/* Calendar Grid */}
-      <div className="glass-panel rounded-2xl p-6 ">
+      <div className="glass-panel rounded-2xl p-6 fade-in ">
         <div className="grid grid-cols-7 gap-1 mb-2">
           {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(d => (
             <div key={d} className="text-center text-xs font-semibold text-on-surface-variant py-2">{d}</div>
@@ -77,8 +64,8 @@ export default function MyAttendance() {
             const dayOfWeek = new Date(year, month - 1, day).getDay();
             const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
             const isFuture = new Date(year, month - 1, day) > new Date();
-            const bg = isFuture ? 'transparent' : isWeekend ? 'rgba(255, 255, 255, 0.02)' : record ? `${statusColors[record.status]}20` : 'rgba(248, 113, 113, 0.1)';
-            const border = record ? `1px solid ${statusColors[record.status]}40` : isWeekend ? '1px solid transparent' : '1px solid rgba(248, 113, 113, 0.2)';
+            const bg = isFuture ? 'transparent' : isWeekend ? 'rgba(76, 27, 27, 0.04)' : record ? `${statusColors[record.status]}20` : 'rgba(51, 29, 29, 0.02)';
+            const border = record ? `1px solid ${statusColors[record.status]}40` : '1px solid transparent';
 
             return (
               <div key={day} className="aspect-square flex flex-col items-center justify-center rounded-xl text-sm transition-all hover:scale-105 cursor-default group relative" style={{ background: bg, border }}>

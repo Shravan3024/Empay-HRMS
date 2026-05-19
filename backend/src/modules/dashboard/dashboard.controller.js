@@ -43,17 +43,17 @@ const getAdminDashboard = async (req, res) => {
       WHERE p.month = $1 AND p.year = $2
     `, [currentMonth, currentYear]);
 
-    // Attendance trend (last 7 days)
+    // Attendance trend (last 7 days, guaranteed series for missing days)
     const attendanceTrend = await pool.query(`
       SELECT
-        a.date,
-        COUNT(*) FILTER (WHERE a.status = 'present') as present,
-        COUNT(*) FILTER (WHERE a.status = 'absent') as absent,
-        COUNT(*) FILTER (WHERE a.status = 'on_leave') as on_leave
-      FROM attendance a
-      WHERE a.date >= CURRENT_DATE - INTERVAL '7 days'
-      GROUP BY a.date
-      ORDER BY a.date
+        d.date,
+        COALESCE(SUM(CASE WHEN a.status = 'present' THEN 1 END), 0) as present,
+        COALESCE(SUM(CASE WHEN a.status = 'absent' THEN 1 END), 0) as absent,
+        COALESCE(SUM(CASE WHEN a.status = 'on_leave' THEN 1 END), 0) as on_leave
+      FROM generate_series(CURRENT_DATE - INTERVAL '6 days', CURRENT_DATE, INTERVAL '1 day') AS d(date)
+      LEFT JOIN attendance a ON a.date = d.date
+      GROUP BY d.date
+      ORDER BY d.date
     `);
 
     // Department headcount

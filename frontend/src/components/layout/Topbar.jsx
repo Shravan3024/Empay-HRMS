@@ -28,10 +28,7 @@ export default function Topbar() {
       {/* Left spacer */}
       <div />
 
-      {/* Center brand */}
-      <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-300">
-        EmPay
-      </div>
+      {/* Center brand removed to simplify navbar */}
 
       {/* Right side */}
       <div className="flex items-center gap-3">

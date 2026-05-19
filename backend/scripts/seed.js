@@ -32,6 +32,34 @@ const salaryData = [
   { email: "admin@empay.com", basic: 80000, hra_percent: 40, special: 15000 },
 ];
 
+const firstNames = ["Amit", "Ravi", "Suresh", "Ramesh", "Deepak", "Sunil", "Anil", "Vijay", "Ajay", "Sanjay", "Rajesh", "Mahesh", "Dinesh", "Kishore", "Naveen", "Praveen", "Rakesh", "Mukesh", "Naresh", "Santosh", "Neelam", "Sunita", "Anita", "Geeta", "Seema", "Rekha", "Meena", "Reena", "Pooja", "Aarti", "Kavita", "Savita", "Sarita", "Sita", "Gita", "Rita", "Nita", "Babita", "Mamta", "Lata"];
+const lastNames = ["Kumar", "Singh", "Sharma", "Yadav", "Gupta", "Patel", "Mishra", "Das", "Pandey", "Tiwari", "Chauhan", "Rajput", "Verma", "Rathore", "Bhatt", "Joshi", "Bansal", "Agrawal", "Garg", "Goyal"];
+const departments = ["Engineering", "Human Resources", "Finance", "Management", "Design", "Marketing", "Sales", "Support", "Operations"];
+const designations = ["Software Engineer", "Senior Software Engineer", "Tech Lead", "QA Engineer", "Product Manager", "Designer", "HR Executive", "Accountant", "Sales Executive", "Support Agent"];
+
+// Generate 300 random users
+for (let i = 1; i <= 300; i++) {
+  const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+  const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+  const email = `emp${i}@empay.com`;
+  users.push({
+    full_name: `${firstName} ${lastName}`,
+    email: email,
+    password: "Password@123",
+    role: "employee",
+    department: departments[Math.floor(Math.random() * departments.length)],
+    designation: designations[Math.floor(Math.random() * designations.length)],
+    phone: `98${Math.floor(10000000 + Math.random() * 90000000)}`,
+    date_joined: `2023-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-01`
+  });
+  salaryData.push({
+    email: email,
+    basic: 20000 + Math.floor(Math.random() * 40000),
+    hra_percent: 40,
+    special: Math.floor(Math.random() * 10000)
+  });
+}
+
 function randomTime(startH, startM, endH, endM) {
   const h = Math.floor(Math.random() * (endH - startH + 1)) + startH;
   const m = Math.floor(Math.random() * (endM - startM + 1)) + startM;

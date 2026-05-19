@@ -52,7 +52,7 @@ export default function PayrollDashboard() {
 
       {/* Recent payruns */}
       <div className="glass-panel rounded-2xl overflow-hidden fade-in">
-        <div className="p-6 border-b border-white/5 flex items-center justify-between" style={{ background: 'rgba(23,31,51,0.3)', backdropFilter: 'blur(20px)' }}>
+        <div className="p-6 border-b border-white/10 flex items-center justify-between bg-transparent">
           <h3 className="text-2xl font-semibold" style={{ color: '#dae2fd' }}>Recent Payruns</h3>
         </div>
         <div className="overflow-x-auto">
