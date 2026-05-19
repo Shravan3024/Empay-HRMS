@@ -54,6 +54,14 @@ app.use('/api/leave', leaveRoutes);
 app.use('/api/payroll', payrollRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
+// Aliases for compatibility with older frontend versions
+app.use('/auth', authRoutes);
+app.use('/users', usersRoutes);
+app.use('/attendance', attendanceRoutes);
+app.use('/leave', leaveRoutes);
+app.use('/payroll', payrollRoutes);
+app.use('/dashboard', dashboardRoutes);
+
 // Enhanced health check with DB pool stats
 app.get('/api/health', async (req, res) => {
   try {
