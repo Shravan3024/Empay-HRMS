@@ -25,7 +25,8 @@ initSocket(server);
 // Middleware
 const allowedOrigins = [
   'http://localhost:5173',
-  process.env.FRONTEND_URL
+  process.env.FRONTEND_URL,
+  'https://empay-hrmssn.vercel.app'
 ];
 
 app.use(cors({
@@ -33,7 +34,8 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.warn(`Blocked by CORS: ${origin}`);
+      callback(null, false);
     }
   },
   credentials: true,
