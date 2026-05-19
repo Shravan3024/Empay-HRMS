@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
       const savedToken = localStorage.getItem('empay_token');
       if (savedToken) {
         try {
-          const res = await api.get('/auth/me');
+          const res = await api.get('/api/auth/me');
           setUser(res.data.data);
           setToken(savedToken);
         } catch {
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = useCallback(async (email, password) => {
-    const res = await api.post('/auth/login', { email, password });
+    const res = await api.post('/api/auth/login', { email, password });
     const { token: newToken, user: userData } = res.data.data;
     localStorage.setItem('empay_token', newToken);
     localStorage.setItem('empay_user', JSON.stringify(userData));
